@@ -1,24 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YbB-b4-Vyn">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Map View Controller-->
+        <scene sceneID="Fyy-Qz-pTB">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController id="fTl-ph-nxK" customClass="MapViewController" customModule="MapKitTask" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b8b-MV-aKo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lll-Hh-vb2">
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <connections>
+                                    <outlet property="delegate" destination="fTl-ph-nxK" id="UYe-IU-Wlj"/>
+                                </connections>
+                            </mapView>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y6W-QQ-4ye">
+                                <rect key="frame" x="0.0" y="729" width="375" height="83"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <tabBarItem title="Standard" image="standart" id="dAh-Ml-Mxp"/>
+                                    <tabBarItem title="Satellite" image="satellite" id="Skd-qW-j7y"/>
+                                    <tabBarItem title="Hybrid" image="hybrid" id="m45-pU-juD"/>
+                                </items>
+                                <connections>
+                                    <outlet property="delegate" destination="fTl-ph-nxK" id="RRJ-TW-Uz6"/>
+                                </connections>
+                            </tabBar>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <constraints>
+                            <constraint firstItem="lll-Hh-vb2" firstAttribute="top" secondItem="jeh-dP-08K" secondAttribute="top" id="4ab-bC-Fj1"/>
+                            <constraint firstItem="Y6W-QQ-4ye" firstAttribute="bottom" secondItem="jeh-dP-08K" secondAttribute="bottom" constant="34" id="Bgg-JC-H0x"/>
+                            <constraint firstItem="lll-Hh-vb2" firstAttribute="trailing" secondItem="jeh-dP-08K" secondAttribute="trailing" id="Gov-MP-skA"/>
+                            <constraint firstItem="lll-Hh-vb2" firstAttribute="leading" secondItem="jeh-dP-08K" secondAttribute="leading" id="LM9-h8-ewH"/>
+                            <constraint firstItem="Y6W-QQ-4ye" firstAttribute="leading" secondItem="jeh-dP-08K" secondAttribute="leading" id="Mea-TN-hx3"/>
+                            <constraint firstItem="Y6W-QQ-4ye" firstAttribute="trailing" secondItem="jeh-dP-08K" secondAttribute="trailing" id="PW2-Om-K6T"/>
+                            <constraint firstItem="Y6W-QQ-4ye" firstAttribute="top" secondItem="lll-Hh-vb2" secondAttribute="bottom" id="nBR-g4-9sd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="jeh-dP-08K"/>
                     </view>
+                    <navigationItem key="navigationItem" id="yt1-hE-Oop">
+                        <barButtonItem key="rightBarButtonItem" title="Location" id="2D5-ef-Wt9">
+                            <connections>
+                                <action selector="locationButtonTapped:" destination="fTl-ph-nxK" id="ZpS-vd-aQa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="lll-Hh-vb2" id="39z-dF-cFc"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wqf-sH-2eI" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1085.5999999999999" y="784.72906403940885"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4W7-C9-PKG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YbB-b4-Vyn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="efw-9e-mqr">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fTl-ph-nxK" kind="relationship" relationship="rootViewController" id="6XY-Nh-RH3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FsB-TA-X1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="328.80000000000001" y="783.99014778325125"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="hybrid" width="32" height="32"/>
+        <image name="satellite" width="40" height="40"/>
+        <image name="standart" width="32" height="32"/>
+    </resources>
 </document>
