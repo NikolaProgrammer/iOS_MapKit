@@ -28,6 +28,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
+
         
         let urlStr = Bundle.main.path(forResource: Constants.resouceName, ofType: Constants.resourceType)
         let parser = JSONParser(urlString: urlStr!)
@@ -66,22 +67,27 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        let annotation = annotation as! SightAnnotation
         var view: MKMarkerAnnotationView
         let indentifier = "Sight"
         
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: indentifier) as? MKMarkerAnnotationView {
+        if annotation.coordinate.latitude == mapView.userLocation.coordinate.latitude && annotation.coordinate.longitude == mapView.userLocation.coordinate.longitude {
+            let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier) as! MKMarkerAnnotationView
             dequeuedView.annotation = annotation
             view = dequeuedView
         } else {
-            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: indentifier)
-            view.canShowCallout = true
-            view.calloutOffset = CGPoint(x: -5, y: 5)
-            
-            let button = UIButton(type: .detailDisclosure)
-            view.leftCalloutAccessoryView = button
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: indentifier) as? MKMarkerAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: indentifier)
+                view.canShowCallout = true
+                view.calloutOffset = CGPoint(x: -5, y: 5)
+                
+                let button = UIButton(type: .detailDisclosure)
+                view.leftCalloutAccessoryView = button
+            }
         }
-        
+ 
         return view
     }
     
