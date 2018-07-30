@@ -22,14 +22,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
         
         let locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-        }
 
-        
         let urlStr = Bundle.main.path(forResource: Constants.resouceName, ofType: Constants.resourceType)
         let parser = JSONParser(urlString: urlStr!)
         
