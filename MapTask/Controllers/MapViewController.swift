@@ -23,8 +23,8 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
         let locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
 
-        let urlStr = Bundle.main.path(forResource: Constants.resouceName, ofType: Constants.resourceType)
-        let parser = JSONParser(urlString: urlStr!)
+        let url = Bundle.main.url(forResource: Constants.resouceName, withExtension: Constants.resourceType)
+        let parser = JSONParser(url: url!)
         
         putSightAnnotations(from: parser.parseJSON())
     }
@@ -40,14 +40,21 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
     private func putSightAnnotations(from sightData: [Any]) {
         for item in sightData {
             if let item = item as? [Any] {
-                let title = item[Constants.titleIndex] as? String
-                let subtitle = item[Constants.subtitleIndex] as? String
-                let description = item[Constants.descriptionIndex] as? String
                 
-                let latitude = item[Constants.latitudeIndex] as! String
-                let longitude = item[Constants.longitudeIndex] as! String
+                guard let latitude = item[JSONConstants.latitudeIndex] as? String else {
+                    print("Unexpected latitude type")
+                    return
+                }
+                guard let longitude = item[JSONConstants.longitudeIndex] as? String else {
+                    print("Unexpected longitude type")
+                    return
+                }
+                
+                let title = item[JSONConstants.titleIndex] as? String
+                let subtitle = item[JSONConstants.subtitleIndex] as? String
+                let description = item[JSONConstants.descriptionIndex] as? String
+
                 let coordinate = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
-                
                 let annotation = SightAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, annotationDescription: description)
                 
                 mapView.addAnnotation(annotation)
@@ -61,20 +68,18 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         var view: MKMarkerAnnotationView
-        let indentifier = "Sight"
         
         if annotation.coordinate.latitude == mapView.userLocation.coordinate.latitude && annotation.coordinate.longitude == mapView.userLocation.coordinate.longitude {
             let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier) as! MKMarkerAnnotationView
             dequeuedView.annotation = annotation
             view = dequeuedView
         } else {
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: indentifier) as? MKMarkerAnnotationView {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: AnnotationIndentifier.sightAnnotationViewIndentifier) as? MKMarkerAnnotationView {
                 dequeuedView.annotation = annotation
                 view = dequeuedView
             } else {
-                view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: indentifier)
+                view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: AnnotationIndentifier.sightAnnotationViewIndentifier)
                 view.canShowCallout = true
-                view.calloutOffset = CGPoint(x: -5, y: 5)
                 
                 let button = UIButton(type: .detailDisclosure)
                 view.leftCalloutAccessoryView = button

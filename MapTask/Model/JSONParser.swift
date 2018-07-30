@@ -9,22 +9,22 @@
 import Foundation
 
 class JSONParser {
-    private let url: URL
+    private var url: URL
     
-    init(urlString: String) {
-        url = URL(string: "file://\(urlString)")!
+    init(url: URL) {
+        self.url = url
     }
     
     func parseJSON() -> [Any] {
         do {
             let data = try Data(contentsOf: url, options: .mappedIfSafe)
-            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any]
+            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
            
             let sightsData = json["data"] as? [Any] ?? []
             
             return sightsData
         } catch {
-            fatalError("JSON parse error: \(error)")
+            fatalError("\(error)")
         }
         
     }

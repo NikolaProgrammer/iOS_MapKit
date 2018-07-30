@@ -11,7 +11,13 @@ import Foundation
 struct Constants {
     static let resouceName = "PublicArt"
     static let resourceType = "json"
-    
+}
+
+struct AnnotationIndentifier {
+    static let sightAnnotationViewIndentifier = "Sight"
+}
+
+struct JSONConstants {
     static let titleIndex = 16
     static let subtitleIndex = 12
     static let latitudeIndex = 18
