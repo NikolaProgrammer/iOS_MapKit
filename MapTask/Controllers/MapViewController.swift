@@ -23,7 +23,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
         let locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
 
-        let url = Bundle.main.url(forResource: Constants.resouceName, withExtension: Constants.resourceType)
+        let url = Bundle.main.url(forResource: ArtConstants.resouceName, withExtension: ArtConstants.resourceType)
         let parser = JSONParser(url: url!)
         
         putSightAnnotations(from: parser.parseJSON())
@@ -41,18 +41,18 @@ class MapViewController: UIViewController,CLLocationManagerDelegate {
         for item in sightData {
             if let item = item as? [Any] {
                 
-                guard let latitude = item[JSONConstants.latitudeIndex] as? String else {
+                guard let latitude = item[ArtConstants.JSONKeys.latitudeIndex] as? String else {
                     print("Unexpected latitude type")
                     return
                 }
-                guard let longitude = item[JSONConstants.longitudeIndex] as? String else {
+                guard let longitude = item[ArtConstants.JSONKeys.longitudeIndex] as? String else {
                     print("Unexpected longitude type")
                     return
                 }
                 
-                let title = item[JSONConstants.titleIndex] as? String
-                let subtitle = item[JSONConstants.subtitleIndex] as? String
-                let description = item[JSONConstants.descriptionIndex] as? String
+                let title = item[ArtConstants.JSONKeys.titleIndex] as? String
+                let subtitle = item[ArtConstants.JSONKeys.subtitleIndex] as? String
+                let description = item[ArtConstants.JSONKeys.descriptionIndex] as? String
 
                 let coordinate = CLLocationCoordinate2D(latitude: Double(latitude)!, longitude: Double(longitude)!)
                 let annotation = SightAnnotation(coordinate: coordinate, title: title, subtitle: subtitle, annotationDescription: description)
